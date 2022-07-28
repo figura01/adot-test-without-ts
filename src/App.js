@@ -1,24 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import DestContextProvider from "./contexts/destContext";
+import { CssBaseline, ThemeProvider, Container} from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+
+import Header from "./components/Header";
+import CustomModal from "./components/CustomModal";
+import DestinationList from "./components/DestinationList";
 
 function App() {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        light: "#63b8ff",
+        main: "#0989e3",
+        dark: "#005db0",
+        contrastText: "#000",
+      },
+      secondary: {
+        main: "#4db6ac",
+        light: "#82e9de",
+        dark: "#00867d",
+        contrastText: "#000",
+      },
+    },
+  });
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <DestContextProvider>
+      <CssBaseline />
+      <main>
+        <Container>
+          <CustomModal onCloseModal={handleClose} open={open}/>
+          <Header onOpenModal={handleOpen}/>
+          <DestinationList />
+          
+        </Container>
+      </main>
+      </DestContextProvider>
+    </ThemeProvider>
   );
 }
 
